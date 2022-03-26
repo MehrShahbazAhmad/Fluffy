@@ -5,6 +5,8 @@ import 'dart:js';
 import 'package:fluffy/Components/MyButton.dart';
 import 'package:fluffy/Components/MyIconButton.dart';
 import 'package:fluffy/Components/MyTextInput.dart';
+import 'package:fluffy/screens/DashBoard.dart';
+import 'package:fluffy/screens/SignUp.dart';
 import 'package:fluffy/styles/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -78,7 +80,28 @@ class LoginSrc extends StatelessWidget {
                                     ),
                                     onPressed: () {}),
                               ),
-                              MyButton(label: 'Login'),
+                              MyButton(
+                                label: 'Login',
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                          const DashboardSrc(),
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        const begin = Offset(0.0, 1.0);
+                                        const end = Offset.zero;
+                                        final tween =
+                                            Tween(begin: begin, end: end);
+                                        final offsetAnimation =
+                                            animation.drive(tween);
+                                        return child;
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -99,7 +122,27 @@ class LoginSrc extends StatelessWidget {
                                           fontSize: 16,
                                         ),
                                       ),
-                                      onPressed: () {}),
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          PageRouteBuilder(
+                                            pageBuilder: (context, animation,
+                                                    secondaryAnimation) =>
+                                                const SignUpSrc(),
+                                            transitionsBuilder: (context,
+                                                animation,
+                                                secondaryAnimation,
+                                                child) {
+                                              const begin = Offset(0.0, 1.0);
+                                              const end = Offset.zero;
+                                              final tween =
+                                                  Tween(begin: begin, end: end);
+                                              final offsetAnimation =
+                                                  animation.drive(tween);
+                                              return child;
+                                            },
+                                          ),
+                                        );
+                                      }),
                                 ],
                               ),
                               Padding(padding: EdgeInsets.only(bottom: 30)),
@@ -114,6 +157,7 @@ class LoginSrc extends StatelessWidget {
                                           </svg>
                                         ''',
                                     bgColor: Color.fromARGB(255, 229, 0, 0),
+                                    onPressed: () {},
                                   ),
                                   Padding(
                                       padding:
@@ -132,6 +176,7 @@ class LoginSrc extends StatelessWidget {
                                           </svg>
                                         ''',
                                     bgColor: Primary_Color,
+                                    onPressed: () {},
                                   )
                                 ],
                               )

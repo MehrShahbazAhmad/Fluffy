@@ -1,3 +1,4 @@
+import 'package:fluffy/screens/DashBoard.dart';
 import 'package:fluffy/screens/Login.dart';
 import 'package:fluffy/screens/SignUp.dart';
 import 'package:fluffy/styles/theme.dart';

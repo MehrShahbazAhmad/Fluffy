@@ -8,8 +8,12 @@ import '../styles/theme.dart';
 class MyIconButton extends StatelessWidget {
   final String icon;
   final Color bgColor;
+  final Function onPressed;
   const MyIconButton(
-      {Key? key, required this.icon, this.bgColor = Primary_Color_Light})
+      {Key? key,
+      required this.icon,
+      this.bgColor = Primary_Color_Light,
+      required this.onPressed})
       : super(key: key);
 
   @override
@@ -34,7 +38,7 @@ class MyIconButton extends StatelessWidget {
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(50)),
             )),
-        onPressed: () {},
+        onPressed: () => onPressed(),
       ),
     );
   }

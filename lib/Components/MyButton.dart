@@ -7,7 +7,9 @@ import '../styles/theme.dart';
 
 class MyButton extends StatelessWidget {
   final String label;
-  const MyButton({Key? key, required this.label}) : super(key: key);
+  final Function onPressed;
+  const MyButton({Key? key, required this.label, required this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class MyButton extends StatelessWidget {
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(50)),
             )),
-        onPressed: () {},
+        onPressed: () => onPressed(),
       ),
     );
   }

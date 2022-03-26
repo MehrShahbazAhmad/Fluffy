@@ -5,6 +5,7 @@ import 'dart:js';
 import 'package:fluffy/Components/MyButton.dart';
 import 'package:fluffy/Components/MyIconButton.dart';
 import 'package:fluffy/Components/MyTextInput.dart';
+import 'package:fluffy/screens/DashBoard.dart';
 import 'package:fluffy/styles/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -58,6 +59,10 @@ class SignUpSrc extends StatelessWidget {
                               ),
                               Padding(padding: EdgeInsets.only(bottom: 80)),
                               MyTextInput(
+                                  hint: 'username',
+                                  icon: Icon(Icons.person),
+                                  obscureText: false),
+                              MyTextInput(
                                   hint: 'xyz@email.com',
                                   icon: Icon(Icons.email),
                                   obscureText: false),
@@ -65,21 +70,31 @@ class SignUpSrc extends StatelessWidget {
                                   hint: "password",
                                   icon: Icon(Icons.lock),
                                   obscureText: true),
-                              Container(
-                                alignment: Alignment.centerRight,
-                                child: TextButton(
-                                    child: Text(
-                                      'Forget Password?',
-                                      style: TextStyle(
-                                        decoration: TextDecoration.underline,
-                                        color: Primary_Color_Text,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    onPressed: () {}),
-                              ),
+                              MyTextInput(
+                                  hint: "re-password",
+                                  icon: Icon(Icons.lock),
+                                  obscureText: true),
                               MyButton(
                                 label: 'SignUp',
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                          const DashboardSrc(),
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        const begin = Offset(0.0, 1.0);
+                                        const end = Offset.zero;
+                                        final tween =
+                                            Tween(begin: begin, end: end);
+                                        final offsetAnimation =
+                                            animation.drive(tween);
+                                        return child;
+                                      },
+                                    ),
+                                  );
+                                },
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -94,14 +109,16 @@ class SignUpSrc extends StatelessWidget {
                                   ),
                                   TextButton(
                                       child: Text(
-                                        'SignUp',
+                                        'Login',
                                         style: TextStyle(
                                           decoration: TextDecoration.underline,
                                           color: Primary_Color_Text,
                                           fontSize: 16,
                                         ),
                                       ),
-                                      onPressed: () {}),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      }),
                                 ],
                               ),
                               Padding(padding: EdgeInsets.only(bottom: 30)),
@@ -116,6 +133,7 @@ class SignUpSrc extends StatelessWidget {
                                           </svg>
                                         ''',
                                     bgColor: Color.fromARGB(255, 229, 0, 0),
+                                    onPressed: () {},
                                   ),
                                   Padding(
                                       padding:
@@ -134,6 +152,7 @@ class SignUpSrc extends StatelessWidget {
                                           </svg>
                                         ''',
                                     bgColor: Primary_Color,
+                                    onPressed: () {},
                                   )
                                 ],
                               )
