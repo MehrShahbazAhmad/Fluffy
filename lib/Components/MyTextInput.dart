@@ -20,7 +20,7 @@ class MyTextInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 60,
-      width: 370,
+      width: 372,
       margin: EdgeInsets.symmetric(vertical: 16),
       padding: EdgeInsets.symmetric(horizontal: 20),
       alignment: Alignment.centerLeft,
