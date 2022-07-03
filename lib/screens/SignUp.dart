@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
 
-import 'dart:js';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluffy/Components/MyButton.dart';
 import 'package:fluffy/Components/MyIconButton.dart';
 import 'package:fluffy/Components/MyTextInput.dart';
@@ -10,25 +9,92 @@ import 'package:fluffy/styles/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SignUpSrc extends StatelessWidget {
+class SignUpSrc extends StatefulWidget {
   const SignUpSrc({Key? key}) : super(key: key);
+
+  @override
+  State<SignUpSrc> createState() => _SignUpSrcState();
+}
+
+class _SignUpSrcState extends State<SignUpSrc> {
+  final _auth = FirebaseAuth.instance;
+  String _userName = "";
+  String _email = "";
+  String _password = "";
+  String _rePassword = "";
+  String _emailError = "";
+  String _passwordError = "";
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    void signUpUser() async {
+      if (_email.isEmpty ||
+          _password.isEmpty ||
+          _userName.isEmpty ||
+          _rePassword.isEmpty) {
+        return;
+      }
+      if (_rePassword != _password) {
+        setState(() {
+          _passwordError = 'password aer not matched.';
+        });
+        return;
+      }
+      setState(() {
+        isLoading = true;
+      });
+      _auth
+          .createUserWithEmailAndPassword(
+              email: _email.trim(), password: _password.trim())
+          .then((uid) => {
+                setState(() {
+                  isLoading = false;
+                }),
+                Navigator.of(context).push(
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const DashboardSrc(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      return child;
+                    },
+                  ),
+                )
+              })
+          .catchError((e) {
+        setState(() {
+          isLoading = false;
+          if (e?.code == 'weak-password') {
+            _passwordError = 'The password provided is too weak.';
+          } else if (e?.code == 'email-already-in-use') {
+            _emailError = 'The account already exists for that email';
+          } else if (e.code == 'invalid-email') {
+            _emailError = e.message;
+          } else {
+            _passwordError = e.message;
+            print(e.message);
+          }
+        });
+      });
+    }
+
     return Scaffold(
       body: Container(
         height: size.height,
         width: size.width,
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('images/signUpCover.png'),
+                image: AssetImage('assets/images/signUpCover.png'),
                 fit: BoxFit.cover)),
         child: Stack(children: [
           Positioned(
             left: 80,
             top: 30,
             child: Container(
-                width: 180, child: SvgPicture.asset('images/logo.svg')),
+                width: 180, child: SvgPicture.asset('assets/images/logo.svg')),
           ),
           Align(
             alignment: Alignment.topRight,
@@ -60,40 +126,77 @@ class SignUpSrc extends StatelessWidget {
                               Padding(padding: EdgeInsets.only(bottom: 80)),
                               MyTextInput(
                                   hint: 'username',
+                                  onChange: (v) {
+                                    setState(() {
+                                      _userName = v;
+                                    });
+                                  },
                                   icon: Icon(Icons.person),
                                   obscureText: false),
                               MyTextInput(
                                   hint: 'xyz@email.com',
+                                  onChange: (v) {
+                                    setState(() {
+                                      _email = v;
+                                      if (!_emailError.isEmpty) {
+                                        _emailError = "";
+                                      }
+                                    });
+                                  },
                                   icon: Icon(Icons.email),
                                   obscureText: false),
+                              if (_emailError != "") ...[
+                                Container(
+                                  width: double.infinity,
+                                  padding: EdgeInsets.only(left: 20),
+                                  child: Text(
+                                    _emailError,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                )
+                              ],
                               MyTextInput(
                                   hint: "password",
+                                  onChange: (v) {
+                                    setState(() {
+                                      _password = v;
+                                    });
+                                  },
                                   icon: Icon(Icons.lock),
                                   obscureText: true),
                               MyTextInput(
                                   hint: "re-password",
+                                  onChange: (v) {
+                                    setState(() {
+                                      _rePassword = v;
+                                      if (!_passwordError.isEmpty) {
+                                        _passwordError = "";
+                                      }
+                                    });
+                                  },
                                   icon: Icon(Icons.lock),
                                   obscureText: true),
+                              if (_passwordError != "") ...[
+                                Container(
+                                  width: double.infinity,
+                                  padding: EdgeInsets.only(left: 20),
+                                  child: Text(
+                                    _passwordError,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                )
+                              ],
                               MyButton(
                                 label: 'SignUp',
+                                isLoading: isLoading,
                                 onPressed: () {
-                                  Navigator.of(context).push(
-                                    PageRouteBuilder(
-                                      pageBuilder: (context, animation,
-                                              secondaryAnimation) =>
-                                          const DashboardSrc(),
-                                      transitionsBuilder: (context, animation,
-                                          secondaryAnimation, child) {
-                                        const begin = Offset(0.0, 1.0);
-                                        const end = Offset.zero;
-                                        final tween =
-                                            Tween(begin: begin, end: end);
-                                        final offsetAnimation =
-                                            animation.drive(tween);
-                                        return child;
-                                      },
-                                    ),
-                                  );
+                                  signUpUser();
                                 },
                               ),
                               Row(

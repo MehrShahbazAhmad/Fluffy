@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
 
-import 'dart:js';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluffy/Components/MyButton.dart';
 import 'package:fluffy/Components/MyIconButton.dart';
 import 'package:fluffy/Components/MyTextInput.dart';
@@ -11,25 +10,81 @@ import 'package:fluffy/styles/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class LoginSrc extends StatelessWidget {
+class LoginSrc extends StatefulWidget {
   const LoginSrc({Key? key}) : super(key: key);
+
+  @override
+  State<LoginSrc> createState() => _LoginSrcState();
+}
+
+class _LoginSrcState extends State<LoginSrc> {
+  final _auth = FirebaseAuth.instance;
+  String _email = "";
+  String _password = "";
+  String _emailError = "";
+  String _passwordError = "";
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    void logInUser() async {
+      if (_email.isEmpty || _password.isEmpty) {
+        return;
+      }
+      setState(() {
+        isLoading = true;
+      });
+      _auth
+          .signInWithEmailAndPassword(
+              email: _email.trim(), password: _password.trim())
+          .then((uid) => {
+                setState(() {
+                  isLoading = false;
+                }),
+                Navigator.of(context).push(
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const DashboardSrc(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      return child;
+                    },
+                  ),
+                )
+              })
+          .catchError((e) {
+        setState(() {
+          isLoading = false;
+          if (e?.code == 'weak-password') {
+            _passwordError = 'The password provided is too weak.';
+          } else if (e?.code == 'email-already-in-use') {
+            _emailError = 'The account already exists for that email';
+          } else if (e.code == 'invalid-email') {
+            _emailError = e.message;
+          } else {
+            _passwordError = e.message;
+            print(e.message);
+          }
+        });
+      });
+    }
+
     return Scaffold(
       body: Container(
         height: size.height,
         width: size.width,
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('images/signUpCover.png'),
+                image: AssetImage('assets/images/signUpCover.png'),
                 fit: BoxFit.cover)),
         child: Stack(children: [
           Positioned(
             left: 80,
             top: 30,
             child: Container(
-                width: 180, child: SvgPicture.asset('images/logo.svg')),
+                width: 180, child: SvgPicture.asset('assets/images/logo.svg')),
           ),
           Align(
             alignment: Alignment.topRight,
@@ -61,12 +116,55 @@ class LoginSrc extends StatelessWidget {
                               Padding(padding: EdgeInsets.only(bottom: 80)),
                               MyTextInput(
                                   hint: 'xyz@email.com',
+                                  keyboardType: TextInputType.emailAddress,
                                   icon: Icon(Icons.email),
+                                  onChange: (v) {
+                                    setState(() {
+                                      _email = v;
+                                      if (!_emailError.isEmpty) {
+                                        _emailError = "";
+                                      }
+                                    });
+                                  },
                                   obscureText: false),
+                              if (_emailError != "") ...[
+                                Container(
+                                  width: double.infinity,
+                                  padding: EdgeInsets.only(left: 20),
+                                  child: Text(
+                                    _emailError,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                )
+                              ],
                               MyTextInput(
                                   hint: "password",
                                   icon: Icon(Icons.lock),
+                                  onChange: (v) {
+                                    setState(() {
+                                      _password = v;
+                                      if (!_passwordError.isEmpty) {
+                                        _passwordError = "";
+                                      }
+                                    });
+                                  },
                                   obscureText: true),
+                              if (_passwordError != "") ...[
+                                Container(
+                                  width: double.infinity,
+                                  padding: EdgeInsets.only(left: 20),
+                                  child: Text(
+                                    _passwordError,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                )
+                              ],
                               Container(
                                 alignment: Alignment.centerRight,
                                 child: TextButton(
@@ -82,24 +180,9 @@ class LoginSrc extends StatelessWidget {
                               ),
                               MyButton(
                                 label: 'Login',
+                                isLoading: isLoading,
                                 onPressed: () {
-                                  Navigator.of(context).push(
-                                    PageRouteBuilder(
-                                      pageBuilder: (context, animation,
-                                              secondaryAnimation) =>
-                                          const DashboardSrc(),
-                                      transitionsBuilder: (context, animation,
-                                          secondaryAnimation, child) {
-                                        const begin = Offset(0.0, 1.0);
-                                        const end = Offset.zero;
-                                        final tween =
-                                            Tween(begin: begin, end: end);
-                                        final offsetAnimation =
-                                            animation.drive(tween);
-                                        return child;
-                                      },
-                                    ),
-                                  );
+                                  logInUser();
                                 },
                               ),
                               Row(
@@ -132,12 +215,6 @@ class LoginSrc extends StatelessWidget {
                                                 animation,
                                                 secondaryAnimation,
                                                 child) {
-                                              const begin = Offset(0.0, 1.0);
-                                              const end = Offset.zero;
-                                              final tween =
-                                                  Tween(begin: begin, end: end);
-                                              final offsetAnimation =
-                                                  animation.drive(tween);
                                               return child;
                                             },
                                           ),

@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -9,11 +8,15 @@ class MyTextInput extends StatelessWidget {
   final String hint;
   final Icon icon;
   final bool obscureText;
+  final TextInputType keyboardType;
+  final ValueChanged<String>? onChange;
   const MyTextInput(
       {Key? key,
       required this.hint,
       required this.icon,
-      this.obscureText = false})
+      this.obscureText = false,
+      this.keyboardType = TextInputType.none,
+      this.onChange})
       : super(key: key);
 
   @override
@@ -33,6 +36,9 @@ class MyTextInput extends StatelessWidget {
             color: Colors.white,
             fontSize: 16,
           ),
+          autofocus: false,
+          keyboardType: TextInputType.emailAddress,
+          onChanged: onChange,
           obscureText: obscureText,
           decoration: InputDecoration(
             border: InputBorder.none,

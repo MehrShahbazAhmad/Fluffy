@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../styles/theme.dart';
@@ -9,11 +8,13 @@ class MyIconButton extends StatelessWidget {
   final String icon;
   final Color bgColor;
   final Function onPressed;
+  final double? radius;
   const MyIconButton(
       {Key? key,
       required this.icon,
       this.bgColor = Primary_Color_Light,
-      required this.onPressed})
+      required this.onPressed,
+      this.radius})
       : super(key: key);
 
   @override
@@ -35,8 +36,8 @@ class MyIconButton extends StatelessWidget {
               fontFamily: 'Helvetica',
             ),
             minimumSize: Size(70, 70),
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(50)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(radius ?? 50),
             )),
         onPressed: () => onPressed(),
       ),

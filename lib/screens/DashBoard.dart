@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluffy/Components/NewProject.dart';
 import 'package:fluffy/Components/ProjectBTN.dart';
 import 'package:fluffy/Components/SearchBar.dart';
 import 'package:fluffy/screens/Login.dart';
@@ -5,12 +7,35 @@ import 'package:fluffy/styles/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class DashboardSrc extends StatelessWidget {
+class DashboardSrc extends StatefulWidget {
   const DashboardSrc({Key? key}) : super(key: key);
+
+  @override
+  State<DashboardSrc> createState() => _DashboardSrcState();
+}
+
+class _DashboardSrcState extends State<DashboardSrc> {
+  var projects = ["Prev Project", "My Project", "Team Project", "Temp Project"];
+  bool show = false;
+  void logOut() {
+    FirebaseAuth.instance.signOut().then((uid) => {
+          Navigator.of(context).push(
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  const LoginSrc(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return child;
+              },
+            ),
+          )
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Container(
         width: size.width,
@@ -21,7 +46,6 @@ class DashboardSrc extends StatelessWidget {
                 height: size.height,
                 width: size.width,
                 child: Container(
-                  width: 370,
                   padding: const EdgeInsets.only(top: 110),
                   decoration: const BoxDecoration(
                     color: Colors.white,
@@ -37,76 +61,78 @@ class DashboardSrc extends StatelessWidget {
                           )),
                       Container(
                         height: 330,
-                        child: Expanded(
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: 5,
-                              itemBuilder: (context, index) {
-                                return index == 0
-                                    ? ProjectBTN(
-                                        label: const Text(
-                                          "Start a new project",
-                                          style: TextStyle(
-                                              color: Primary_Color_Dark,
-                                              fontFamily: "Helvetica",
-                                              fontSize: 20),
-                                        ),
-                                        widget: Center(
-                                          child: Container(
-                                              width: 70,
-                                              height: 70,
-                                              decoration: const BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  border: Border(
-                                                    top: BorderSide(
-                                                      color: Colors.black,
-                                                      width: 1,
-                                                    ),
-                                                    left: BorderSide(
-                                                      color: Colors.black,
-                                                      width: 1,
-                                                    ),
-                                                    right: BorderSide(
-                                                      color: Colors.black,
-                                                      width: 1,
-                                                    ),
-                                                    bottom: BorderSide(
-                                                      color: Colors.black,
-                                                      width: 1,
-                                                    ),
-                                                  )),
-                                              child: const Center(
-                                                child: Icon(Icons.add,
-                                                    size: 30,
-                                                    color: Colors.black),
-                                              )),
-                                        ),
-                                        onPressed: () {},
-                                        borderSide: const BorderSide(
-                                            color: Colors.black, width: 0.7),
-                                      )
-                                    : ProjectBTN(
-                                        label: const Text(
-                                          "Start a new project",
-                                          style: TextStyle(
-                                              fontFamily: "Helvetica",
-                                              fontSize: 20),
-                                        ),
-                                        widget: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            image: DecorationImage(
-                                              image: AssetImage(
-                                                  "images/image_${index}.jpeg"),
-                                              fit: BoxFit.cover,
-                                            ),
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 5,
+                            itemBuilder: (context, index) {
+                              return index == 0
+                                  ? ProjectBTN(
+                                      label: const Text(
+                                        "Start a new project",
+                                        style: TextStyle(
+                                            color: Primary_Color_Dark,
+                                            fontFamily: "Helvetica",
+                                            fontSize: 20),
+                                      ),
+                                      widget: Center(
+                                        child: Container(
+                                            width: 70,
+                                            height: 70,
+                                            decoration: const BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                border: Border(
+                                                  top: BorderSide(
+                                                    color: Colors.black,
+                                                    width: 1,
+                                                  ),
+                                                  left: BorderSide(
+                                                    color: Colors.black,
+                                                    width: 1,
+                                                  ),
+                                                  right: BorderSide(
+                                                    color: Colors.black,
+                                                    width: 1,
+                                                  ),
+                                                  bottom: BorderSide(
+                                                    color: Colors.black,
+                                                    width: 1,
+                                                  ),
+                                                )),
+                                            child: const Center(
+                                              child: Icon(Icons.add,
+                                                  size: 30,
+                                                  color: Colors.black),
+                                            )),
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          show = true;
+                                        });
+                                      },
+                                      borderSide: const BorderSide(
+                                          color: Colors.black, width: 0.7),
+                                    )
+                                  : ProjectBTN(
+                                      label: Text(
+                                        projects[index - 1],
+                                        style: const TextStyle(
+                                            fontFamily: "Helvetica",
+                                            fontSize: 20),
+                                      ),
+                                      widget: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                                "assets/images/image_${index}.jpeg"),
+                                            fit: BoxFit.cover,
                                           ),
                                         ),
-                                        onPressed: () {},
-                                      );
-                              }),
-                        ),
+                                      ),
+                                      onPressed: () {},
+                                    );
+                            }),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -126,26 +152,24 @@ class DashboardSrc extends StatelessWidget {
                       ),
                       Container(
                         height: 550,
-                        child: Expanded(
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: 5,
-                              itemBuilder: (context, index) => ProjectBTN(
-                                    height: 500,
-                                    islabel: false,
-                                    widget: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              "images/temp_${index + 1}.jpeg"),
-                                          fit: BoxFit.cover,
-                                        ),
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 5,
+                            itemBuilder: (context, index) => ProjectBTN(
+                                  height: 500,
+                                  islabel: false,
+                                  widget: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                            "assets/images/temp_${index + 1}.jpeg"),
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
-                                    onPressed: () {},
-                                  )),
-                        ),
+                                  ),
+                                  onPressed: () {},
+                                )),
                       ),
                     ],
                   ),
@@ -163,27 +187,13 @@ class DashboardSrc extends StatelessWidget {
                   children: [
                     Container(
                       width: 180,
-                      child: SvgPicture.asset('images/logo.svg'),
+                      child: SvgPicture.asset('assets/images/logo.svg'),
                     ),
                     // ignore: prefer_const_constructors
                     SearchBar(hint: "Search Project", icon: Icon(Icons.search)),
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).push(
-                          PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    const LoginSrc(),
-                            transitionsBuilder: (context, animation,
-                                secondaryAnimation, child) {
-                              const begin = Offset(0.0, 1.0);
-                              const end = Offset.zero;
-                              final tween = Tween(begin: begin, end: end);
-                              final offsetAnimation = animation.drive(tween);
-                              return child;
-                            },
-                          ),
-                        );
+                        logOut();
                       },
                       style: TextButton.styleFrom(
                           backgroundColor: Primary_Color_Light,
@@ -194,11 +204,19 @@ class DashboardSrc extends StatelessWidget {
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(50)),
                           )),
-                      child: Image.asset('images/user.png'),
+                      child: Image.asset('assets/images/user.png'),
                     ),
                   ],
                 )),
           ),
+          if (show)
+            NewProject(
+              onClose: () {
+                setState(() {
+                  show = false;
+                });
+              },
+            )
         ]),
       ),
     );
