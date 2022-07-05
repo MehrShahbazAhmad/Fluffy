@@ -1,15 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:fluffy/WidgetsComponents/MyText.dart';
+import 'package:fluffy/provider/MyTextProvider.dart';
 import 'package:fluffy/screens/CanvasSrc.dart';
-import 'package:fluffy/screens/Dashboard.dart';
+import 'package:fluffy/screens/DashBoard.dart';
 import 'package:fluffy/screens/Login.dart';
 import 'package:fluffy/styles/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => MyTextProvider())],
+      child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {

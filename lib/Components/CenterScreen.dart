@@ -1,17 +1,32 @@
 import 'package:fluffy/OutputCode/GenrateCode.dart';
 import 'package:fluffy/WidgetClasses/TextClass.dart';
+import 'package:fluffy/provider/MyTextProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:provider/provider.dart';
 
 class CenterScreen extends StatefulWidget {
   final ValueSetter<int>? onChanged;
-  const CenterScreen({Key? key, this.onChanged}) : super(key: key);
+  final String? myText;
+  const CenterScreen({Key? key, this.onChanged, this.myText}) : super(key: key);
 
   @override
   State<CenterScreen> createState() => _CenterScreenState();
 }
 
 class _CenterScreenState extends State<CenterScreen> {
+  List<Widget> adds = [];
+  ScrollController _scrollController = ScrollController();
+
+  scrollToBottom() async {
+    WidgetsBinding.instance!.addPostFrameCallback(
+      (_) => _scrollController.jumpTo(
+        _scrollController.position.maxScrollExtent,
+      ),
+    );
+  }
+
   List _dropDownList = [
     {
       "name": "iphone 12 pro",
@@ -93,13 +108,25 @@ class _CenterScreenState extends State<CenterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(code?.myVariable);
+    // useEffect(() {
+    //   print("text:" + TextClass.text);
+    // }, [TextClass.text]);
+    Widget rowWidget = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        styleText("I'm"),
+        styleText("Row"),
+        styleText("Widget"),
+      ],
+    );
+    print("text:" + TextClass.text);
     return Container(
       padding: EdgeInsets.all(20),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text('${context.watch<MyTextProvider>().text}'),
             Container(
               padding: EdgeInsets.only(top: 10, bottom: 5, left: 5),
               child: Text(
@@ -155,7 +182,21 @@ class _CenterScreenState extends State<CenterScreen> {
                   return Container(
                       width: double.parse(_selectedItem["width"].toString()),
                       height: double.parse(_selectedItem["height"].toString()),
-                      child: Text("Hello"),
+                      child: Expanded(
+                        child: Container(
+                          child: RawScrollbar(
+                            thickness: 4,
+                            thumbColor: Colors.indigo,
+                            radius: Radius.circular(15),
+                            child: SingleChildScrollView(
+                              controller: _scrollController,
+                              child: Column(
+                                children: adds,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -163,10 +204,112 @@ class _CenterScreenState extends State<CenterScreen> {
                 },
                 onAccept: (int data) {
                   widget.onChanged?.call(data);
+                  switch (data) {
+                    case 14:
+                      adds.add(containerWidget);
+                      scrollToBottom();
+                      setState(() {});
+                      break;
+                    case 1:
+                      adds.add(textWidget);
+                      scrollToBottom();
+                      setState(() {});
+                      break;
+                    case 15:
+                      adds.add(columnWidget);
+                      scrollToBottom();
+                      setState(() {});
+                      break;
+                    case 16:
+                      adds.add(rowWidget);
+                      scrollToBottom();
+                      setState(() {});
+                      break;
+                    case -1:
+                      if (adds.length > 0) {
+                        adds[0] = rowWidget;
+                        scrollToBottom();
+                        setState(() {});
+                      }
+                      break;
+                    case -2:
+                      if (adds.length > 0) {
+                        adds.removeAt(0);
+                        scrollToBottom();
+                        setState(() {});
+                      }
+                      break;
+                  }
                 },
               ),
             ))
           ]),
+    );
+  }
+
+  Widget containerWidget = Padding(
+    padding: EdgeInsets.symmetric(vertical: 20),
+    child: Container(
+      height: 30,
+      width: double.infinity,
+      color: Colors.indigoAccent,
+    ),
+  );
+
+  Widget textWidget = Padding(
+    padding: EdgeInsets.symmetric(vertical: 30),
+    child: Text(
+      "I'm Text Widget",
+      style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: Colors.indigo.shade600,
+      ),
+    ),
+  );
+
+  Widget columnWidget = Padding(
+    padding: EdgeInsets.symmetric(vertical: 30),
+    child: Column(
+      children: [
+        Text(
+          "I'm",
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.indigo.shade600,
+          ),
+        ),
+        SizedBox(height: 10),
+        Text(
+          "Column",
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.indigo.shade600,
+          ),
+        ),
+        SizedBox(height: 10),
+        Text(
+          "Widget",
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.indigo.shade600,
+          ),
+        ),
+      ],
+    ),
+  );
+
+  Widget styleText(text) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: Colors.indigo.shade600,
+      ),
     );
   }
 }

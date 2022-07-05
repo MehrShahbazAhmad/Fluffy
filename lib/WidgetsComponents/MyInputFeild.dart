@@ -5,7 +5,7 @@ import 'package:fluffy/Components/PInputFeild.dart';
 import 'package:fluffy/Components/PToggleSwitch.dart';
 import 'package:fluffy/WidgetsComponents/MyText.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_iconpicker/flutter_iconpicker.dart';
+// import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
 class MyInputFeild extends StatefulWidget {
   const MyInputFeild({Key? key}) : super(key: key);
@@ -27,11 +27,11 @@ class _MyInputFeildState extends State<MyInputFeild> {
   Color? _BorderColor = Colors.black;
   Color? _filledColor = Colors.white;
 
-  Future<Icon> _pickIcon() async {
-    IconData? icon = await FlutterIconPicker.showIconPicker(context,
-        iconPackModes: [IconPack.cupertino]);
-    return Icon(icon);
-  }
+  // Future<Icon> _pickIcon() async {
+  //   IconData? icon = await FlutterIconPicker.showIconPicker(context,
+  //       iconPackModes: [IconPack.cupertino]);
+  //   return Icon(icon);
+  // }
 
   List<String> borderStyleList = ["Solid", "Dashed", "Dotted"];
   String selectedBorderStyle = "Solid";
@@ -136,11 +136,11 @@ class _MyInputFeildState extends State<MyInputFeild> {
                     width: 190,
                     child: TextButton.icon(
                       onPressed: () async {
-                        Icon? icon = await _pickIcon();
-                        setState(() {
-                          // print(await _pickIcon());
-                          _preIcon = icon;
-                        });
+                        // Icon? icon = await _pickIcon();
+                        // setState(() {
+                        //   // print(await _pickIcon());
+                        //   _preIcon = icon;
+                        // });
                       },
                       style: TextButton.styleFrom(
                         primary: Colors.black,
@@ -193,11 +193,11 @@ class _MyInputFeildState extends State<MyInputFeild> {
                     width: 190,
                     child: TextButton.icon(
                       onPressed: () async {
-                        Icon? icon = await _pickIcon();
-                        setState(() {
-                          // print(await _pickIcon());
-                          _postIcon = icon;
-                        });
+                        // Icon? icon = await _pickIcon();
+                        // setState(() {
+                        //   // print(await _pickIcon());
+                        //   _postIcon = icon;
+                        // });
                       },
                       style: TextButton.styleFrom(
                         primary: Colors.black,

@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class TextClass {
   int start;
   int? end;
-  String text = "";
+  static String text = "";
   double fontSize = 12;
   String textCode = '''
   Text(
@@ -17,9 +17,9 @@ class TextClass {
   )
   ''';
   TextClass({required this.start});
-  void setText(String text) {
-    this.text = text;
-    generateCode();
+  static void setText(String tet) {
+    text = tet;
+    // generateCode();
   }
 
   void setFontSize(String text) {

@@ -1,6 +1,6 @@
 import 'package:fluffy/Components/PInputFeild.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_iconpicker/flutter_iconpicker.dart';
+// import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
 class PIconPicker extends StatelessWidget {
   final Icon? icon;
@@ -11,11 +11,11 @@ class PIconPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<Icon> _pickIcon() async {
-      IconData? icon = await FlutterIconPicker.showIconPicker(context,
-          iconPackModes: [IconPack.cupertino]);
-      return Icon(icon);
-    }
+    // Future<Icon> _pickIcon() async {
+    //   IconData? icon = await FlutterIconPicker.showIconPicker(context,
+    //       iconPackModes: [IconPack.cupertino]);
+    //   return Icon(icon);
+    // }
 
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Padding(
@@ -36,8 +36,8 @@ class PIconPicker extends StatelessWidget {
               width: 190,
               child: TextButton.icon(
                 onPressed: () async {
-                  Icon? ico = await _pickIcon();
-                  onChanged?.call(ico);
+                  // Icon? ico = await _pickIcon();
+                  // onChanged?.call(ico);
                 },
                 style: TextButton.styleFrom(
                   primary: Colors.black,

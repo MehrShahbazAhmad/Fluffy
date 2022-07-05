@@ -1,15 +1,17 @@
 import 'package:fluffy/OutputCode/GenrateCode.dart';
 import 'package:fluffy/WidgetClasses/TextClass.dart';
+import 'package:fluffy/provider/MyTextProvider.dart';
 import 'package:fluffy/styles/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:provider/provider.dart';
 
 class MyText extends StatefulWidget {
-  const MyText({Key? key}) : super(key: key);
-
+  const MyText({Key? key, this.onChangedText}) : super(key: key);
+  final ValueSetter<String>? onChangedText;
   @override
   State<MyText> createState() => _MyTextState();
 }
@@ -107,10 +109,12 @@ class _MyTextState extends State<MyText> {
                     ),
                     child: TextField(
                       onChanged: (text) {
-                        _textClass[0].setText(text);
-                        setState(() {
-                          code.myVariable = _textClass[0].generateCode();
-                        });
+                        context.read<MyTextProvider>().setText(text);
+                        // TextClass.setText(text);
+                        // setState(() {
+                        //   code.myVariable = _textClass[0].generateCode();
+                        // });
+                        // widget.onChangedText?.call(text);
                       },
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
