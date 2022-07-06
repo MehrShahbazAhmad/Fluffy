@@ -18,9 +18,7 @@ class MyText extends StatefulWidget {
 }
 
 class _MyTextState extends State<MyText> {
-
-  Map widgetsData =
-  {
+  Map widgetsData = {
     "type": "text",
     "args": {
       "text": "I'm a Text Widget",
@@ -34,11 +32,25 @@ class _MyTextState extends State<MyText> {
     }
   };
 
-  void changeText(mytext) { widgetsData['args']['text'] = mytext; }
-  void changeColor(mycolor) { widgetsData['args']['style']['color'] = mycolor; }
-  void changeFontSize(mysize) { widgetsData['args']['style']['fontSize'] = mysize;}
-  void changeFontFamily(myfontfamily) { widgetsData['args']['style']['fontFamily'] = myfontfamily; }
-  void changeFontWeight(myfontweight) { widgetsData['args']['style']['fontWeight'] = myfontweight; }
+  void changeText(mytext) {
+    widgetsData['args']['text'] = mytext;
+  }
+
+  void changeColor(mycolor) {
+    widgetsData['args']['style']['color'] = mycolor;
+  }
+
+  void changeFontSize(mysize) {
+    widgetsData['args']['style']['fontSize'] = mysize;
+  }
+
+  void changeFontFamily(myfontfamily) {
+    widgetsData['args']['style']['fontFamily'] = myfontfamily;
+  }
+
+  void changeFontWeight(myfontweight) {
+    widgetsData['args']['style']['fontWeight'] = myfontweight;
+  }
 
   MyService code = MyService();
   List<TextClass> _textClass = [TextClass(start: 5)];
@@ -61,33 +73,35 @@ class _MyTextState extends State<MyText> {
     "Verdana"
   ];
   List _dropDownFontWeightList = [
-    "100",
-    "200",
-    "300",
-    "400",
-    "500",
-    "600",
-    "700",
-    "800",
-    "900",
+    "w100",
+    "w200",
+    "w300",
+    "w400",
+    "w500",
+    "w600",
+    "w700",
+    "w800",
+    "w900",
     "bold",
   ];
-  List _dropDownFontStyleList = ["normal", "italic", "oblique"];
+  List _dropDownFontStyleList = ["normal", "italic"];
   List _dropDownTextDecorationList = [
     "none",
     "underline",
     "overline",
-    "line-through"
+    "lineThrough"
   ];
 
   String _selectedFont = "Arial";
-  String _selectedFontWeight = "400";
+  String _selectedFontWeight = "w400";
   String _selectedFontStyle = "normal";
   String _selectedTextDecoration = "none";
-  List<bool> _selectionTextAlignList = List.generate(3, (_) => false);
+  List<bool> _selectionTextAlignList = [true, false, false];
+
   @override
   Widget build(BuildContext context) {
     print(_textClass[0].start);
+
     return Container(
       width: 280,
       child: Column(
@@ -190,7 +204,9 @@ class _MyTextState extends State<MyText> {
                           );
                         }).toList(),
                         onChanged: (newValue) {
-                          context.read<MyTextProvider>().setFontFamily(newValue.toString());
+                          context
+                              .read<MyTextProvider>()
+                              .setFontFamily(newValue.toString());
                           setState(() {
                             _selectedFont = newValue.toString();
                           });
@@ -247,6 +263,9 @@ class _MyTextState extends State<MyText> {
                                     );
                                   }).toList(),
                                   onChanged: (newValue) {
+                                    context
+                                        .read<MyTextProvider>()
+                                        .setDecoration(newValue.toString());
                                     setState(() {
                                       _selectedTextDecoration =
                                           newValue.toString();
@@ -290,7 +309,9 @@ class _MyTextState extends State<MyText> {
                                   border: InputBorder.none,
                                 ),
                                 onChanged: (value) {
-                                  context.read<MyTextProvider>().setSize(double.parse(value));
+                                  context
+                                      .read<MyTextProvider>()
+                                      .setSize(double.parse(value));
                                 },
                               ),
                             ),
@@ -354,7 +375,10 @@ class _MyTextState extends State<MyText> {
                                       }).toList(),
                                       onChanged: (newValue) {
                                         setState(() {
-                                          context.read<MyTextProvider>().setFontWeight(newValue.toString());
+                                          context
+                                              .read<MyTextProvider>()
+                                              .setFontWeight(
+                                                  newValue.toString());
                                           _selectedFontWeight =
                                               newValue.toString();
                                         });
@@ -407,6 +431,9 @@ class _MyTextState extends State<MyText> {
                                         );
                                       }).toList(),
                                       onChanged: (newValue) {
+                                        context
+                                            .read<MyTextProvider>()
+                                            .setFontStyle(newValue.toString());
                                         setState(() {
                                           _selectedFontStyle =
                                               newValue.toString();
@@ -446,6 +473,21 @@ class _MyTextState extends State<MyText> {
                           ],
                           isSelected: _selectionTextAlignList,
                           onPressed: (int index) {
+                            switch (index) {
+                              case 0:
+                                context.read<MyTextProvider>().setAlign("left");
+                                break;
+                              case 1:
+                                context
+                                    .read<MyTextProvider>()
+                                    .setAlign("center");
+                                break;
+                              case 2:
+                                context
+                                    .read<MyTextProvider>()
+                                    .setAlign("right");
+                                break;
+                            }
                             setState(() {
                               for (int buttonIndex = 0;
                                   buttonIndex < _selectionTextAlignList.length;
@@ -522,8 +564,11 @@ class _MyTextState extends State<MyText> {
                                     border: InputBorder.none,
                                   ),
                                   onChanged: (String Value) {
+                                    Color color = Color(int.parse(Value));
+                                    context
+                                        .read<MyTextProvider>()
+                                        .setColor("00ffff");
                                     if (Value.length == 10) {
-                                      context.read<MyTextProvider>().setColor(Value);
                                       setState(() {
                                         _color = Color(int.parse(Value));
                                       });
@@ -557,7 +602,9 @@ class _MyTextState extends State<MyText> {
                             Icons.color_lens,
                             size: 25,
                           ),
-                          onPressed: () => pickColor(context),
+                          onPressed: () {
+                            pickColor(context);
+                          },
                         )),
                   ],
                 ),
@@ -602,6 +649,9 @@ class _MyTextState extends State<MyText> {
           setState(() {
             _color = value;
           });
+          context
+              .read<MyTextProvider>()
+              .setColor(value.value.toRadixString(16));
         },
         pickerColor: _color,
       );

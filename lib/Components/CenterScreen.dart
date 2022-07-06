@@ -2,6 +2,7 @@ import 'package:fluffy/OutputCode/GenrateCode.dart';
 import 'package:fluffy/WidgetClasses/TextClass.dart';
 import 'package:fluffy/provider/MyTextProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:json_dynamic_widget/json_dynamic_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +28,19 @@ class _CenterScreenState extends State<CenterScreen> {
     );
   }
 
+  Map widgetsData = {
+    "type": "text",
+    "args": {
+      "text": "I'm a Text Widget",
+      "style": {
+        "align": "center",
+        "color": "#ff0000",
+        "fontSize": 100,
+        "fontWeight": "bold",
+        "fontFamily": "Arial",
+      }
+    }
+  };
   List _dropDownList = [
     {
       "name": "iphone 12 pro",
@@ -105,12 +119,15 @@ class _CenterScreenState extends State<CenterScreen> {
     "height": "844",
   };
   MyService? code;
-
+  var registory = JsonWidgetRegistry.instance;
   @override
   Widget build(BuildContext context) {
     // useEffect(() {
     //   print("text:" + TextClass.text);
     // }, [TextClass.text]);
+    var textWidgets = JsonWidgetData.fromDynamic(
+        context.watch<MyTextProvider>().widgetsData,
+        registry: registory);
     Widget rowWidget = Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -119,6 +136,7 @@ class _CenterScreenState extends State<CenterScreen> {
         styleText("Widget"),
       ],
     );
+
     print("text:" + TextClass.text);
     return Container(
       padding: EdgeInsets.all(20),
@@ -190,9 +208,7 @@ class _CenterScreenState extends State<CenterScreen> {
                             radius: Radius.circular(15),
                             child: SingleChildScrollView(
                               controller: _scrollController,
-                              child: Column(
-                                children: adds,
-                              ),
+                              child: textWidgets!.build(context: context),
                             ),
                           ),
                         ),
@@ -211,7 +227,8 @@ class _CenterScreenState extends State<CenterScreen> {
                       setState(() {});
                       break;
                     case 1:
-                      adds.add(textWidget);
+                      // adds.add(textWidgets!.build(context: context));
+
                       scrollToBottom();
                       setState(() {});
                       break;
