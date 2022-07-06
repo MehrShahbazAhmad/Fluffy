@@ -39,9 +39,10 @@ dependencies:
   path_provider: ^2.0.11
   shared_preferences: ^2.0.15
   provider: ^6.0.3
+  json_dynamic_widget: ^5.0.2+3
 
   # dynamic_widget: ^4.0.5
-  
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -57,7 +58,7 @@ dev_dependencies:
   flutter_switch: ^0.3.2
   flutter_colorpicker: ^1.0.3
   # flutter_iconpicker: ^3.1.4+1
-  
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -96,7 +97,7 @@ flutter:
         - asset: fonts/Helvetica-Neu-Bold.ttf
         - asset: fonts/HelveticaNeue.ttf
           style: italic
-          
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
