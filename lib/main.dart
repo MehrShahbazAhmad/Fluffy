@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fluffy/WidgetsComponents/MyText.dart';
+import 'package:fluffy/provider/MyLsitProvider.dart';
 import 'package:fluffy/provider/MyTextProvider.dart';
 import 'package:fluffy/screens/CanvasSrc.dart';
 import 'package:fluffy/screens/DashBoard.dart';
@@ -12,9 +13,10 @@ import 'package:provider/provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => MyTextProvider())],
-      child: const MyApp()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => MyTextProvider()),
+    ChangeNotifierProvider(create: (_) => MyListProvider())
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {

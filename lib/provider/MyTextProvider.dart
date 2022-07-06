@@ -8,6 +8,7 @@ class MyTextProvider extends ChangeNotifier {
   double _size = 12.0;
   String _fontFamily = 'Hello World';
   String _fontWeight = 'Hello World';
+
   Map _widgetsData = {
     "type": "text",
     "args": {
@@ -36,6 +37,25 @@ class MyTextProvider extends ChangeNotifier {
     print(text);
     _text = text;
     _widgetsData['args']['text'] = text;
+    notifyListeners();
+  }
+
+  void reset() {
+    _widgetsData = {
+      "type": "text",
+      "args": {
+        "text": "I'm a Text Widget",
+        "style": {
+          "align": "left",
+          "color": "0xff000000",
+          "fontSize": 20,
+          "fontStyle": "normal",
+          "fontWeight": "w400",
+          "fontFamily": "Arial",
+          "decoration": "none",
+        }
+      }
+    };
     notifyListeners();
   }
 

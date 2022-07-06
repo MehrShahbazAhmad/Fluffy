@@ -5,11 +5,13 @@ import 'package:fluffy/Components/MyButton.dart';
 import 'package:fluffy/Components/MyWidgets.dart';
 import 'package:fluffy/Components/WidgetProperties.dart';
 import 'package:fluffy/database/widgetsData.dart';
+import 'package:fluffy/provider/MyLsitProvider.dart';
 import 'package:fluffy/styles/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'Login.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class CanvasSrc extends StatefulWidget {
   const CanvasSrc({Key? key}) : super(key: key);
@@ -37,33 +39,34 @@ class _CanvasSrcState extends State<CanvasSrc> {
         });
   }
 
-  Widget leftVerticalBar() {
-    switch (sideIndex) {
-      case 0:
-        return MyWidgets();
-      case 1:
-        return ComponentList(
-          list: _myWidgetsTree,
-          onReorder: (int oldIndex, int newIndex) {
-            final index = newIndex > oldIndex ? newIndex - 1 : newIndex;
-            final name = _myWidgetsTree.removeAt(oldIndex);
-            setState(() {
-              _myWidgetsTree.insert(index, name);
-            });
-          },
-          onPressed: (index) {
-            setState(() {
-              _myWidgetsTree.removeAt(index);
-            });
-          },
-        );
-      default:
-        return Container();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    Widget leftVerticalBar() {
+      switch (sideIndex) {
+        case 0:
+          return MyWidgets();
+        case 1:
+          return ComponentList(
+            list: _myWidgetsTree,
+            onReorder: (int oldIndex, int newIndex) {
+              final index = newIndex > oldIndex ? newIndex - 1 : newIndex;
+              final name = _myWidgetsTree.removeAt(oldIndex);
+              setState(() {
+                _myWidgetsTree.insert(index, name);
+              });
+            },
+            onPressed: (index) {
+              context.read<MyListProvider>().removeWidget(index);
+              setState(() {
+                _myWidgetsTree.removeAt(index);
+              });
+            },
+          );
+        default:
+          return Container();
+      }
+    }
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SizedBox(

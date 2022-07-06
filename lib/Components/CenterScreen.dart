@@ -1,5 +1,6 @@
 import 'package:fluffy/OutputCode/GenrateCode.dart';
 import 'package:fluffy/WidgetClasses/TextClass.dart';
+import 'package:fluffy/provider/MyLsitProvider.dart';
 import 'package:fluffy/provider/MyTextProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:json_dynamic_widget/json_dynamic_widget.dart';
@@ -125,9 +126,16 @@ class _CenterScreenState extends State<CenterScreen> {
     // useEffect(() {
     //   print("text:" + TextClass.text);
     // }, [TextClass.text]);
-    var textWidgets = JsonWidgetData.fromDynamic(
-        context.watch<MyTextProvider>().widgetsData,
-        registry: registory);
+    Widget _buildWidget(BuildContext context, int index) {
+      var textWidgets = JsonWidgetData.fromDynamic(
+          context.watch<MyListProvider>().getWidget(index),
+          registry: registory);
+      return textWidgets!.build(context: context);
+    }
+
+    // var textWidgets = JsonWidgetData.fromDynamic(
+    //     data,
+    //     registry: registory);
     Widget rowWidget = Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -201,18 +209,13 @@ class _CenterScreenState extends State<CenterScreen> {
                       width: double.parse(_selectedItem["width"].toString()),
                       height: double.parse(_selectedItem["height"].toString()),
                       child: Expanded(
-                        child: Container(
-                          child: RawScrollbar(
-                            thickness: 4,
-                            thumbColor: Colors.indigo,
-                            radius: Radius.circular(15),
-                            child: SingleChildScrollView(
-                              controller: _scrollController,
-                              child: textWidgets!.build(context: context),
-                            ),
-                          ),
-                        ),
-                      ),
+                          child: ListView.builder(
+                        itemCount:
+                            context.watch<MyListProvider>().addedWidgets.length,
+                        itemBuilder: (context, index) {
+                          return _buildWidget(context, index);
+                        },
+                      )),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -228,7 +231,10 @@ class _CenterScreenState extends State<CenterScreen> {
                       break;
                     case 1:
                       // adds.add(textWidgets!.build(context: context));
-
+                      context.read<MyTextProvider>().reset();
+                      var wigetData =
+                          context.read<MyTextProvider>().widgetsData;
+                      context.read<MyListProvider>().addWidget(wigetData);
                       scrollToBottom();
                       setState(() {});
                       break;

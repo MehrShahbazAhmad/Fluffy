@@ -1,5 +1,6 @@
 import 'package:fluffy/OutputCode/GenrateCode.dart';
 import 'package:fluffy/WidgetClasses/TextClass.dart';
+import 'package:fluffy/provider/MyLsitProvider.dart';
 import 'package:fluffy/provider/MyTextProvider.dart';
 import 'package:fluffy/styles/theme.dart';
 import 'package:flutter/material.dart';
@@ -147,6 +148,8 @@ class _MyTextState extends State<MyText> {
                     child: TextField(
                       onChanged: (text) {
                         context.read<MyTextProvider>().setText(text);
+                        var temp = context.read<MyTextProvider>().widgetsData;
+                        context.read<MyListProvider>().updateWidget(temp);
                         // TextClass.setText(text);
                         // setState(() {
                         //   code.myVariable = _textClass[0].generateCode();
@@ -207,6 +210,8 @@ class _MyTextState extends State<MyText> {
                           context
                               .read<MyTextProvider>()
                               .setFontFamily(newValue.toString());
+                          context.read<MyListProvider>().updateWidget(
+                              context.read<MyTextProvider>().widgetsData);
                           setState(() {
                             _selectedFont = newValue.toString();
                           });
@@ -269,6 +274,11 @@ class _MyTextState extends State<MyText> {
                                     setState(() {
                                       _selectedTextDecoration =
                                           newValue.toString();
+                                      context
+                                          .read<MyListProvider>()
+                                          .updateWidget(context
+                                              .read<MyTextProvider>()
+                                              .widgetsData);
                                     });
                                   },
                                 ),
@@ -312,6 +322,10 @@ class _MyTextState extends State<MyText> {
                                   context
                                       .read<MyTextProvider>()
                                       .setSize(double.parse(value));
+                                  context.read<MyListProvider>().updateWidget(
+                                      context
+                                          .read<MyTextProvider>()
+                                          .widgetsData);
                                 },
                               ),
                             ),
@@ -379,6 +393,11 @@ class _MyTextState extends State<MyText> {
                                               .read<MyTextProvider>()
                                               .setFontWeight(
                                                   newValue.toString());
+                                          context
+                                              .read<MyListProvider>()
+                                              .updateWidget(context
+                                                  .read<MyTextProvider>()
+                                                  .widgetsData);
                                           _selectedFontWeight =
                                               newValue.toString();
                                         });
@@ -434,6 +453,11 @@ class _MyTextState extends State<MyText> {
                                         context
                                             .read<MyTextProvider>()
                                             .setFontStyle(newValue.toString());
+                                        context
+                                            .read<MyListProvider>()
+                                            .updateWidget(context
+                                                .read<MyTextProvider>()
+                                                .widgetsData);
                                         setState(() {
                                           _selectedFontStyle =
                                               newValue.toString();
@@ -488,6 +512,8 @@ class _MyTextState extends State<MyText> {
                                     .setAlign("right");
                                 break;
                             }
+                            context.read<MyListProvider>().updateWidget(
+                                context.read<MyTextProvider>().widgetsData);
                             setState(() {
                               for (int buttonIndex = 0;
                                   buttonIndex < _selectionTextAlignList.length;
@@ -652,6 +678,9 @@ class _MyTextState extends State<MyText> {
           context
               .read<MyTextProvider>()
               .setColor(value.value.toRadixString(16));
+          context
+              .read<MyListProvider>()
+              .updateWidget(context.read<MyTextProvider>().widgetsData);
         },
         pickerColor: _color,
       );
