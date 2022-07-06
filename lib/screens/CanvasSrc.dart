@@ -145,6 +145,7 @@ class _CanvasSrcState extends State<CanvasSrc> {
                                       padding: const EdgeInsets.all(0),
                                       onPressed: () {
                                         if (sideIndex != 2) {
+                                          context.read<MyListProvider>().getCodeShow();
                                           setState(() {
                                             sideIndex = 2;
                                           });
