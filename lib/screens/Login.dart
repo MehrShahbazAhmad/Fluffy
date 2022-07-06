@@ -223,40 +223,40 @@ class _LoginSrcState extends State<LoginSrc> {
                                 ],
                               ),
                               Padding(padding: EdgeInsets.only(bottom: 30)),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                // ignore: prefer_const_literals_to_create_immutables
-                                children: [
-                                  MyIconButton(
-                                    icon:
-                                        '''<svg xmlns="http://www.w3.org/2000/svg" width="34.313" height="34.875" viewBox="0 0 34.313 34.875">
-                                            <path id="Icon_awesome-google" data-name="Icon awesome-google" d="M34.313,18.408c0,9.949-6.813,17.03-16.875,17.03a17.438,17.438,0,0,1,0-34.875A16.769,16.769,0,0,1,29.13,5.126L24.384,9.689C18.176,3.7,6.63,8.2,6.63,18A10.923,10.923,0,0,0,17.438,29.011c6.9,0,9.492-4.95,9.9-7.516h-9.9v-6h16.6A15.287,15.287,0,0,1,34.313,18.408Z" transform="translate(0 -0.563)" fill="#fff"/>
-                                          </svg>
-                                        ''',
-                                    bgColor: Color.fromARGB(255, 229, 0, 0),
-                                    onPressed: () {},
-                                  ),
-                                  Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 20),
-                                      child: Text(
-                                        "or",
-                                        style: TextStyle(
-                                          color: Primary_Color_Light,
-                                          fontSize: 16,
-                                        ),
-                                      )),
-                                  MyIconButton(
-                                    icon:
-                                        '''<svg xmlns="http://www.w3.org/2000/svg" width="19.281" height="36" viewBox="0 0 19.281 36">
-                                            <path id="Icon_awesome-facebook-f" data-name="Icon awesome-facebook-f" d="M19.627,20.25l1-6.515H14.375V9.507c0-1.782.873-3.52,3.673-3.52h2.842V.44A34.658,34.658,0,0,0,15.846,0C10.7,0,7.332,3.12,7.332,8.769v4.965H1.609V20.25H7.332V36h7.043V20.25Z" transform="translate(-1.609)" fill="#fff"/>
-                                          </svg>
-                                        ''',
-                                    bgColor: Primary_Color,
-                                    onPressed: () {},
-                                  )
-                                ],
-                              )
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   // ignore: prefer_const_literals_to_create_immutables
+                              //   children: [
+                              //     MyIconButton(
+                              //       icon:
+                              //           '''<svg xmlns="http://www.w3.org/2000/svg" width="34.313" height="34.875" viewBox="0 0 34.313 34.875">
+                              //               <path id="Icon_awesome-google" data-name="Icon awesome-google" d="M34.313,18.408c0,9.949-6.813,17.03-16.875,17.03a17.438,17.438,0,0,1,0-34.875A16.769,16.769,0,0,1,29.13,5.126L24.384,9.689C18.176,3.7,6.63,8.2,6.63,18A10.923,10.923,0,0,0,17.438,29.011c6.9,0,9.492-4.95,9.9-7.516h-9.9v-6h16.6A15.287,15.287,0,0,1,34.313,18.408Z" transform="translate(0 -0.563)" fill="#fff"/>
+                              //             </svg>
+                              //           ''',
+                              //       bgColor: Color.fromARGB(255, 229, 0, 0),
+                              //       onPressed: () {},
+                              //     ),
+                              //     Padding(
+                              //         padding:
+                              //             EdgeInsets.symmetric(horizontal: 20),
+                              //         child: Text(
+                              //           "or",
+                              //           style: TextStyle(
+                              //             color: Primary_Color_Light,
+                              //             fontSize: 16,
+                              //           ),
+                              //         )),
+                              //     MyIconButton(
+                              //       icon:
+                              //           '''<svg xmlns="http://www.w3.org/2000/svg" width="19.281" height="36" viewBox="0 0 19.281 36">
+                              //               <path id="Icon_awesome-facebook-f" data-name="Icon awesome-facebook-f" d="M19.627,20.25l1-6.515H14.375V9.507c0-1.782.873-3.52,3.673-3.52h2.842V.44A34.658,34.658,0,0,0,15.846,0C10.7,0,7.332,3.12,7.332,8.769v4.965H1.609V20.25H7.332V36h7.043V20.25Z" transform="translate(-1.609)" fill="#fff"/>
+                              //             </svg>
+                              //           ''',
+                              //       bgColor: Primary_Color,
+                              //       onPressed: () {},
+                              //     )
+                              //   ],
+                              // )
                             ]),
                         Positioned(
                           right: 0,

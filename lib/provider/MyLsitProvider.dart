@@ -10,7 +10,14 @@ class MyListProvider extends ChangeNotifier {
 
   String getWidgetString() {
     String t2 = '';
-    for (var i = 0; i < _addedWidgets.length; i++) {
+    if( _addedWidgets.length == 0)
+    {
+      t2 =
+'       //Your widgets are added here\n';
+    }
+    else
+    {
+      for (var i = 0; i < _addedWidgets.length; i++) {
       String t1 =
 '''
       Text(
@@ -27,6 +34,7 @@ class MyListProvider extends ChangeNotifier {
       ),
 ''';
       t2 = t2 + t1;
+      }
     }
     return t2;
   }
