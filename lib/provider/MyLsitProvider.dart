@@ -10,30 +10,25 @@ class MyListProvider extends ChangeNotifier {
 
   String getWidgetString() {
     String t2 = '';
-    if( _addedWidgets.length == 0)
-    {
-      t2 =
-'       //Your widgets are added here\n';
-    }
-    else
-    {
+    if (_addedWidgets.length == 0) {
+      t2 = '       //Your widgets are added here\n';
+    } else {
       for (var i = 0; i < _addedWidgets.length; i++) {
-      String t1 =
-'''
+        String t1 = '''
       Text(
         "${_addedWidgets[i]['args']['text']}",
         textAlign: TextAlign.${_addedWidgets[i]['args']['style']['align']},
         style: TextStyle(
-          color: ${_addedWidgets[i]['args']['style']['color']},
+          color: Color(${_addedWidgets[i]['args']['style']['color']}),
           fontSize: ${_addedWidgets[i]['args']['style']['fontSize']},
           fontWeight: FontWeight.${_addedWidgets[i]['args']['style']['fontWeight']},
-          fontFamily: ${_addedWidgets[i]['args']['style']['fontFamily']},
+          fontFamily: '${_addedWidgets[i]['args']['style']['fontFamily']}',
           fontStyle: FontStyle.${_addedWidgets[i]['args']['style']['fontStyle']},
           decoration: TextDecoration.${_addedWidgets[i]['args']['style']['decoration']}
         )
       ),
 ''';
-      t2 = t2 + t1;
+        t2 = t2 + t1;
       }
     }
     return t2;
@@ -79,12 +74,15 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Column(children:[
-${temp2}    ]);
+    return Container(
+      color:Colors.white,
+    child:Column(children:[
+      ${temp2}
+    ]));
   }
 }
+
 ''';
-    print(temp);
     return temp;
   }
 

@@ -152,7 +152,6 @@ class _CenterScreenState extends State<CenterScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('${context.watch<MyTextProvider>().text}'),
             Container(
               padding: EdgeInsets.only(top: 10, bottom: 5, left: 5),
               child: Text(

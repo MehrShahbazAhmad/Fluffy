@@ -204,7 +204,10 @@ class _DashboardSrcState extends State<DashboardSrc> {
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(50)),
                           )),
-                      child: Image.asset('assets/images/user.png'),
+                      child: Icon(
+                        Icons.power_settings_new,
+                        color: Primary_Color,
+                      ),
                     ),
                   ],
                 )),

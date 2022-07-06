@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
       ),
       home: show
           ? _isLoagin
-              ? CanvasSrc()
+              ? DashboardSrc()
               : LoginSrc()
           : Container(),
     );

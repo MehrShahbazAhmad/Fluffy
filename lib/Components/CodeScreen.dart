@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:fluffy/provider/MyLsitProvider.dart';
 import 'package:clipboard/clipboard.dart';
 
-
 class CodeScreen extends StatefulWidget {
   const CodeScreen({Key? key}) : super(key: key);
 
@@ -26,9 +25,12 @@ class _CodeScreenState extends State<CodeScreen> {
         child: Stack(
           children: [
             Container(
+              width: double.infinity,
+              height: double.infinity,
               alignment: Alignment(-1, -1),
               child: SingleChildScrollView(
-                child: Expanded(
+                child: Container(
+                  width: double.infinity,
                   child: Text(
                     context.read<MyListProvider>().code,
                     style: TextStyle(
@@ -46,7 +48,7 @@ class _CodeScreenState extends State<CodeScreen> {
                 icon: Icon(Icons.copy),
                 onPressed: () {
                   var temp = context.read<MyListProvider>().code;
-                  FlutterClipboard.copy(temp).then(( temp ) => print('copied'));
+                  FlutterClipboard.copy(temp).then((temp) => print('copied'));
                 },
               ),
             )

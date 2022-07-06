@@ -145,7 +145,9 @@ class _CanvasSrcState extends State<CanvasSrc> {
                                       padding: const EdgeInsets.all(0),
                                       onPressed: () {
                                         if (sideIndex != 2) {
-                                          context.read<MyListProvider>().getCodeShow();
+                                          context
+                                              .read<MyListProvider>()
+                                              .getCodeShow();
                                           setState(() {
                                             sideIndex = 2;
                                           });
@@ -327,7 +329,10 @@ class _CanvasSrcState extends State<CanvasSrc> {
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(50)),
                                     )),
-                                child: Image.asset('assets/images/user.png'),
+                                child: Icon(
+                                  Icons.power_settings_new,
+                                  color: Primary_Color,
+                                ),
                               ),
                             ],
                           )
