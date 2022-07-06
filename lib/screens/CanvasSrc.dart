@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluffy/Components/CenterScreen.dart';
+import 'package:fluffy/Components/CodeScreen.dart';
 import 'package:fluffy/Components/ComponentList.dart';
 import 'package:fluffy/Components/MyButton.dart';
 import 'package:fluffy/Components/MyWidgets.dart';
@@ -62,6 +63,8 @@ class _CanvasSrcState extends State<CanvasSrc> {
               });
             },
           );
+        case 2:
+          return CodeScreen();
         default:
           return Container();
       }
@@ -140,7 +143,13 @@ class _CanvasSrcState extends State<CanvasSrc> {
                                   )),
                                   IconButton(
                                       padding: const EdgeInsets.all(0),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        if (sideIndex != 2) {
+                                          setState(() {
+                                            sideIndex = 2;
+                                          });
+                                        }
+                                      },
                                       color: Colors.grey[400],
                                       icon: const Icon(
                                         Icons.code,
@@ -170,45 +179,53 @@ class _CanvasSrcState extends State<CanvasSrc> {
                           ]),
                     ),
                   ),
-                  Container(
-                      padding: const EdgeInsets.only(top: 80),
-                      height: size.height,
-                      color: Colors.white,
-                      width: 350,
-                      child: leftVerticalBar()),
-                  Container(
-                    height: size.height,
-                    padding: const EdgeInsets.only(top: 80),
-                    width: size.width - 700 - 80,
-                    color: Color(0xFFE4E4E4),
-                    child: CenterScreen(
-                      onChanged: (value) {
-                        final name = widgetsData[value - 1]["name"];
-                        int count = 0;
-                        _myWidgetsTree.forEach((element) {
-                          if (element["name"].toString() == name.toString()) {
-                            count = int.parse(element["count"]) + 1;
-                          }
-                        });
-                        setState(() {
-                          _selectedIndex = value;
-                          _myWidgetsTree.add({
-                            "name": name.toString(),
-                            "count": count.toString()
-                          });
-                        });
-                      },
-                    ),
-                  ),
-                  Container(
-                    height: size.height,
-                    padding: const EdgeInsets.only(top: 80),
-                    width: 350,
-                    color: Color(0xFFF7F7F7),
-                    child: WidgetProperties(
-                      value: _selectedIndex ?? -1,
-                    ),
-                  )
+                  sideIndex == 2 ? Expanded(child: CodeScreen()) : Container(),
+                  sideIndex != 2
+                      ? Container(
+                          padding: const EdgeInsets.only(top: 80),
+                          height: size.height,
+                          color: Colors.white,
+                          width: 350,
+                          child: leftVerticalBar())
+                      : Container(),
+                  sideIndex != 2
+                      ? Container(
+                          height: size.height,
+                          padding: const EdgeInsets.only(top: 80),
+                          width: size.width - 700 - 80,
+                          color: Color(0xFFE4E4E4),
+                          child: CenterScreen(
+                            onChanged: (value) {
+                              final name = widgetsData[value - 1]["name"];
+                              int count = 0;
+                              _myWidgetsTree.forEach((element) {
+                                if (element["name"].toString() ==
+                                    name.toString()) {
+                                  count = int.parse(element["count"]) + 1;
+                                }
+                              });
+                              setState(() {
+                                _selectedIndex = value;
+                                _myWidgetsTree.add({
+                                  "name": name.toString(),
+                                  "count": count.toString()
+                                });
+                              });
+                            },
+                          ),
+                        )
+                      : Container(),
+                  sideIndex != 2
+                      ? Container(
+                          height: size.height,
+                          padding: const EdgeInsets.only(top: 80),
+                          width: 350,
+                          color: Color(0xFFF7F7F7),
+                          child: WidgetProperties(
+                            value: _selectedIndex ?? -1,
+                          ),
+                        )
+                      : Container(),
                 ],
               ),
             ),
