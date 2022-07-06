@@ -19,7 +19,7 @@ class MyListProvider extends ChangeNotifier {
         "${_addedWidgets[i]['args']['text']}",
         textAlign: TextAlign.${_addedWidgets[i]['args']['style']['align']},
         style: TextStyle(
-          color: Color(${_addedWidgets[i]['args']['style']['color']}),
+          color: Color(0x${_addedWidgets[i]['args']['style']['color']}),
           fontSize: ${_addedWidgets[i]['args']['style']['fontSize']},
           fontWeight: FontWeight.${_addedWidgets[i]['args']['style']['fontWeight']},
           fontFamily: '${_addedWidgets[i]['args']['style']['fontFamily']}',
