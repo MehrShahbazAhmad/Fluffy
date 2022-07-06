@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:provider/provider.dart';
+import 'package:json_dynamic_widget/json_dynamic_widget.dart';
 
 class MyText extends StatefulWidget {
   const MyText({Key? key, this.onChangedText}) : super(key: key);
@@ -17,6 +18,28 @@ class MyText extends StatefulWidget {
 }
 
 class _MyTextState extends State<MyText> {
+
+  Map widgetsData =
+  {
+    "type": "text",
+    "args": {
+      "text": "I'm a Text Widget",
+      "style": {
+        "align": "center",
+        "color": "#ff0000",
+        "fontSize": 100,
+        "fontWeight": "bold",
+        "fontFamily": "Arial",
+      }
+    }
+  };
+
+  void changeText(mytext) { widgetsData['args']['text'] = mytext; }
+  void changeColor(mycolor) { widgetsData['args']['style']['color'] = mycolor; }
+  void changeFontSize(mysize) { widgetsData['args']['style']['fontSize'] = mysize;}
+  void changeFontFamily(myfontfamily) { widgetsData['args']['style']['fontFamily'] = myfontfamily; }
+  void changeFontWeight(myfontweight) { widgetsData['args']['style']['fontWeight'] = myfontweight; }
+
   MyService code = MyService();
   List<TextClass> _textClass = [TextClass(start: 5)];
   Color _color = Colors.black;
@@ -167,6 +190,7 @@ class _MyTextState extends State<MyText> {
                           );
                         }).toList(),
                         onChanged: (newValue) {
+                          context.read<MyTextProvider>().setFontFamily(newValue.toString());
                           setState(() {
                             _selectedFont = newValue.toString();
                           });
@@ -265,6 +289,9 @@ class _MyTextState extends State<MyText> {
                                   ),
                                   border: InputBorder.none,
                                 ),
+                                onChanged: (value) {
+                                  context.read<MyTextProvider>().setSize(double.parse(value));
+                                },
                               ),
                             ),
                           ],
@@ -327,6 +354,7 @@ class _MyTextState extends State<MyText> {
                                       }).toList(),
                                       onChanged: (newValue) {
                                         setState(() {
+                                          context.read<MyTextProvider>().setFontWeight(newValue.toString());
                                           _selectedFontWeight =
                                               newValue.toString();
                                         });
@@ -495,6 +523,7 @@ class _MyTextState extends State<MyText> {
                                   ),
                                   onChanged: (String Value) {
                                     if (Value.length == 10) {
+                                      context.read<MyTextProvider>().setColor(Value);
                                       setState(() {
                                         _color = Color(int.parse(Value));
                                       });
